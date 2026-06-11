@@ -36,6 +36,8 @@ export const generateArticle=async(req,res)=>{
 });
 
 const content = response.choices[0].message.content
+console.log("Content length:", content.length);
+console.log("Finish reason:", response.choices[0].finish_reason);
 
 await sql` INSERT INTO creations (user_id, prompt, content, type) VALUES (${userId}, ${prompt}, ${content}, 'article')`;
 
@@ -72,7 +74,7 @@ export const generateBlogTitle=async(req,res)=>{
         }
 
         const response = await AI.chat.completions.create({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.5-flash",
     messages: [
         {
             role: "user",
@@ -80,10 +82,13 @@ export const generateBlogTitle=async(req,res)=>{
         }
     ],
     temperature:0.7,
-    max_tokens: 100,
+    max_tokens: 5000,
 });
 
 const content = response.choices[0].message.content
+console.log("Content length:", content.length);
+console.log("Finish reason:", response.choices[0].finish_reason);
+
 
 await sql` INSERT INTO creations (user_id, prompt, content, type) VALUES (${userId}, ${prompt}, ${content}, 'blog-title')`;
 
@@ -140,7 +145,7 @@ export const removeImageBackground=async(req,res)=>{
     try {
         
         const{userId}=req.auth();
-       const {image}=req.file;
+       const image = req.file;
         const plan=req.plan;
         
 
@@ -179,7 +184,7 @@ export const removeImageObject=async(req,res)=>{
         
         const{userId}=req.auth();
         const{object}=req.body;
-       const {image}=req.file;
+       const image=req.file;
         const plan=req.plan;
         
 
