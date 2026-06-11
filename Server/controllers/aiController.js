@@ -246,7 +246,7 @@ const prompt = `review the following resume and provide constructive feedback on
         },
     ],
     temperature:0.7,
-    max_tokens: 1000,
+    max_tokens: 5000,
 });
 
 const content = response.choices[0].message.content
